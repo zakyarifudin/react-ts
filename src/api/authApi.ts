@@ -1,11 +1,17 @@
 import { login, get } from "../helper/helper";
 
-export interface IUserAuth {
+export interface IUserAuthRequest {
   email: string;
   password: string;
 }
 
-export const authLogin = (params: IUserAuth) => {
+export interface IUserAuthResponse {
+  id_user: string;
+  name: string;
+  email: string;
+}
+
+export const authLogin = (params: IUserAuthRequest) => {
   return login("/oauth/token", {
     username: params.email,
     password: params.password,
@@ -13,7 +19,7 @@ export const authLogin = (params: IUserAuth) => {
 };
 
 export const userAuth = () => {
-  return get("api/user-auth");
+  return get<IUserAuthResponse>("api/user-auth");
 };
 
 export const authLogout = () => {

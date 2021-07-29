@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 axios.defaults.baseURL = "http://localhost:9999";
 
@@ -27,17 +27,23 @@ export const authHeaders = () => {
 };
 
 export const getNoAuth = async (url: string, params: any = {}) => {
-  return await axios.get(url, {
-    params: params,
-    headers: noAuthHeaders(),
-  });
+  return axios
+    .get(url, {
+      params: params,
+      headers: noAuthHeaders(),
+    })
+    .then((r) => r.data)
+    .catch((e) => e.response.data);
 };
 
 export const postNoAuth = async (url: string, data: any = {}) => {
-  return await axios.post(url, {
-    headers: noAuthHeaders(),
-    data: data,
-  });
+  return axios
+    .post(url, {
+      headers: noAuthHeaders(),
+      data: data,
+    })
+    .then((r) => r.data)
+    .catch((e) => e.response.data);
 };
 
 export const login = async (url: string, data: any = {}) => {
@@ -48,34 +54,61 @@ export const login = async (url: string, data: any = {}) => {
   form.append("username", data.username);
   form.append("password", data.password);
 
-  return await axios.post(url, form, {
-    headers: {
-      Accept: "application/json, application/xml, text/plain, text/html, *.*",
-    },
-  });
+  return axios
+    .post(url, form, {
+      headers: {
+        Accept: "application/json, application/xml, text/plain, text/html, *.*",
+      },
+    })
+    .then((r) => r.data);
 };
 
-export const get = async (url: string) => {
+export const get = async <T = any>(url: string) => {
   // console.log("url", authHeaders(), authToken());
-  return await axios.get(url, {
-    headers: authHeaders(),
-  });
+  return axios
+    .get<T>(url, {
+      headers: authHeaders(),
+    })
+    .then((r) => r.data)
+    .catch((e: Error | AxiosError) => {
+      if (axios.isAxiosError(e)) {
+        if (e.response) {
+          // console.log(e.response);
+          if (e.response.status === 500)
+            throw new Error(JSON.stringify(e.response.statusText));
+          else throw new Error(JSON.stringify(e.response.data));
+        } else if (e.request) {
+          console.log(e.request);
+        } else {
+          console.log(e.message);
+        }
+      }
+    });
 };
 
 export const post = async (url: string, data: any = {}) => {
-  return await axios.post(url, data, {
-    headers: authHeaders(),
-  });
+  return axios
+    .post(url, data, {
+      headers: authHeaders(),
+    })
+    .then((r) => r.data)
+    .catch((e) => e.response.data);
 };
 
 export const put = async (url: string, data: any = {}) => {
-  return await axios.put(url, data, {
-    headers: authHeaders(),
-  });
+  return axios
+    .put(url, data, {
+      headers: authHeaders(),
+    })
+    .then((r) => r.data)
+    .catch((e) => e.response.data);
 };
 
 export const destroy = async (url: string) => {
-  return await axios.delete(url, {
-    headers: authHeaders(),
-  });
+  return axios
+    .delete(url, {
+      headers: authHeaders(),
+    })
+    .then((r) => r.data)
+    .catch((e) => e.response.data);
 };

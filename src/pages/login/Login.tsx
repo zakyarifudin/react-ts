@@ -2,11 +2,14 @@ import React from "react";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { Redirect } from "react-router";
-import { authLogin, IUserAuth } from "../../api/authApi";
+import { authLogin, IUserAuthRequest } from "../../api/authApi";
 import "./Login.scss";
 
 const Login = () => {
-  const [user, setUser] = useState<IUserAuth>({ email: "", password: "" });
+  const [user, setUser] = useState<IUserAuthRequest>({
+    email: "",
+    password: "",
+  });
   const [errorValidate, setErrorValidate] = useState(false);
   const mutation = useMutation(authLogin);
 
@@ -31,7 +34,7 @@ const Login = () => {
   if (mutation.isSuccess) {
     const { data } = mutation;
     if (data) {
-      const bearer = `Bearer ${data?.data.access_token}`;
+      const bearer = `Bearer ${data.access_token}`;
       localStorage.setItem("bearer", bearer);
     }
 
