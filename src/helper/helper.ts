@@ -33,7 +33,11 @@ export const getNoAuth = async (url: string, params: any = {}) => {
       headers: noAuthHeaders(),
     })
     .then((r) => r.data)
-    .catch((e) => e.response.data);
+    .catch((e: Error | AxiosError) => {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      }
+    });
 };
 
 export const postNoAuth = async (url: string, data: any = {}) => {
@@ -43,7 +47,11 @@ export const postNoAuth = async (url: string, data: any = {}) => {
       data: data,
     })
     .then((r) => r.data)
-    .catch((e) => e.response.data);
+    .catch((e: Error | AxiosError) => {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      }
+    });
 };
 
 export const login = async (url: string, data: any = {}) => {
@@ -60,7 +68,12 @@ export const login = async (url: string, data: any = {}) => {
         Accept: "application/json, application/xml, text/plain, text/html, *.*",
       },
     })
-    .then((r) => r.data);
+    .then((r) => r.data)
+    .catch((e: Error | AxiosError) => {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      }
+    });
 };
 
 export const get = async <T = any>(url: string) => {
@@ -72,16 +85,7 @@ export const get = async <T = any>(url: string) => {
     .then((r) => r.data)
     .catch((e: Error | AxiosError) => {
       if (axios.isAxiosError(e)) {
-        if (e.response) {
-          // console.log(e.response);
-          if (e.response.status === 500)
-            throw new Error(JSON.stringify(e.response.statusText));
-          else throw new Error(JSON.stringify(e.response.data));
-        } else if (e.request) {
-          console.log(e.request);
-        } else {
-          console.log(e.message);
-        }
+        throw e;
       }
     });
 };
@@ -92,7 +96,11 @@ export const post = async (url: string, data: any = {}) => {
       headers: authHeaders(),
     })
     .then((r) => r.data)
-    .catch((e) => e.response.data);
+    .catch((e: Error | AxiosError) => {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      }
+    });
 };
 
 export const put = async (url: string, data: any = {}) => {
@@ -101,7 +109,11 @@ export const put = async (url: string, data: any = {}) => {
       headers: authHeaders(),
     })
     .then((r) => r.data)
-    .catch((e) => e.response.data);
+    .catch((e: Error | AxiosError) => {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      }
+    });
 };
 
 export const destroy = async (url: string) => {
@@ -110,5 +122,9 @@ export const destroy = async (url: string) => {
       headers: authHeaders(),
     })
     .then((r) => r.data)
-    .catch((e) => e.response.data);
+    .catch((e: Error | AxiosError) => {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      }
+    });
 };
