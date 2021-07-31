@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-axios.defaults.baseURL = "http://localhost:9999";
+axios.defaults.baseURL = process.env.REACT_APP_API_SERVER;
 
 export const authToken = () => {
   return localStorage.getItem("bearer");
@@ -56,8 +56,11 @@ export const postNoAuth = async (url: string, data: any = {}) => {
 
 export const login = async (url: string, data: any = {}) => {
   var form = new FormData();
-  form.append("client_id", "3");
-  form.append("client_secret", "fBDg8MlNVt8ZPRCxqU14zPCtjAH8jH4f3pmNKsR3");
+  form.append("client_id", String(process.env.REACT_APP_API_SERVER_CLIENT_ID));
+  form.append(
+    "client_secret",
+    String(process.env.REACT_APP_API_SERVER_CLIENT_SECRET)
+  );
   form.append("grant_type", "password");
   form.append("username", data.username);
   form.append("password", data.password);
