@@ -1,4 +1,12 @@
 .dashboard {
   margin: auto;
   margin-top: 5vh;
+  text-align: center;
+}
+
+.hello {
+  color: #000;
+  .username {
+    color: blueviolet;
+  }
 }

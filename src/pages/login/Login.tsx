@@ -2,7 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import { authLogin, IUserAuthRequest } from "../../api/authApi";
+import Button from "../../components/button/Button";
 import "./Login.scss";
 
 const Login = () => {
@@ -45,8 +47,12 @@ const Login = () => {
     <div className="login">
       <h1 className="login-h1"> LOGIN </h1>
 
-      {errorValidate ? <h3>Password & Username Harus diisi</h3> : <></>}
-      <form>
+      {errorValidate ? (
+        <h3 className="error-form">Password & Username Harus diisi</h3>
+      ) : (
+        <></>
+      )}
+      <form id="login-form">
         <label className="login-label">Email :</label>
         <input
           className="login-input"
@@ -63,13 +69,16 @@ const Login = () => {
           value={user.password}
           onChange={(e) => handleOnChange(e)}
         />
-        <input
-          className="login-button"
-          onClick={(e) => handleSubmit(e)}
-          type="submit"
-          value="LOGIN"
-        />
       </form>
+      <Button
+        title="LOGIN"
+        form="login-form"
+        type="login"
+        onClick={(e) => handleSubmit(e)}
+      />
+      <Link to="/">
+        <Button title="HOME" />
+      </Link>
     </div>
   );
 };

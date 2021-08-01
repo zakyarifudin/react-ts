@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { authLogout, userAuth } from "../../api/authApi";
 import axios, { AxiosError } from "axios";
 import "./Dashboard.scss";
+import Button from "../../components/button/Button";
 
 const Post = () => {
   const queryClient = new QueryClient();
@@ -52,6 +53,10 @@ const Post = () => {
     }
   };
 
+  const handleRefresh = () => {
+    userInfo.refetch();
+  };
+
   if (userInfo.isLoading) {
     return (
       <div className="dashboard">
@@ -79,6 +84,7 @@ const Post = () => {
       <div className="dashboard">
         <h1>Dashboard Page </h1>
         <h2>Error Occur : {message} </h2>
+        <Button title="REFRESH" onClick={() => handleRefresh()} />
       </div>
     );
   }
@@ -92,11 +98,10 @@ const Post = () => {
   return (
     <div className="dashboard">
       <h1>Dashboard Page</h1>
-      <h2>Hello {data?.name}</h2>
-      <button className="logout" onClick={() => handleLogout()}>
-        {" "}
-        Logout{" "}
-      </button>
+      <h2 className="hello">
+        Hello, <span className="username">{data?.name}</span>
+      </h2>
+      <Button title="LOGOUT" onClick={() => handleLogout()} />
     </div>
   );
 };

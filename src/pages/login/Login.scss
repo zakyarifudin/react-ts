@@ -1,10 +1,10 @@
 .login {
   margin: 20vh auto auto auto;
-  height: 50vh;
+  height: auto;
   width: 50vw;
   background-color: #282c34;
   text-align: center;
-  padding-top: 4rem;
+  padding: 3rem;
 
   .login-h1 {
     color: white;
@@ -28,16 +28,7 @@
     border-radius: 1rem;
   }
 
-  .login-button {
-    text-decoration: none;
-    color: black;
-    display: block;
-    margin: auto;
-    margin-top: 1rem;
-    width: 12rem;
-    height: 2rem;
-    border: 3px solid blueviolet;
-    border-radius: 1rem;
-    cursor: pointer;
+  .error-form {
+    color: red;
   }
 }
